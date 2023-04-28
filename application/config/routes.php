@@ -57,12 +57,17 @@ $route['Gallery']                = 'UserController/gellary';
 $route['Blog']                   = 'UserController/blog';
 $route['Contact']                = 'UserController/contact';
 $route['Single_Blog/(:any)']     = 'UserController/single_blog/$1';
+$route['add_comment_act']        = 'UserController/add_comment_act';
+$route['add_user_comment_act']   = 'UserController/add_user_comment_act';
 $route['Blog_Category']          = 'UserController/blog_category';
 $route['Side_Item']              = 'UserController/side_item';
 // $route['Footer']                 = 'UserController/footer_section';
 
 //End User Site.///////////////////////////////////////////////////
 
+$route['Login']                                      = 'AdminDashboard/login';
+$route['LoginAct']                                   = 'AdminDashboard/loginAct';
+$route['LoginOut']                                   = 'AdminDashboard/loginOut';
 $route['Dashboard']                                  = 'AdminDashboard/index';
 $route['admin_news_add_action']                      = 'AdminDashboard/news_add_action';
 $route['admin_update_nav']                           = 'AdminDashboard/update_nav';

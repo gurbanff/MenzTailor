@@ -1,3 +1,14 @@
+<?php
+
+    if(!isset($_SESSION['admin_id'])){
+        $this->session->set_flashdata('err','Enter username and password!');
+        redirect(base_url('Login'));
+    }
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

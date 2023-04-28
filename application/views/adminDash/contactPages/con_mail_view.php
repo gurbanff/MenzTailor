@@ -19,7 +19,7 @@
                     <h4 class="card-title">Address</h4>
                     <div class="row">
                       <div class="col-md-6">
-                          <?php foreach($select_mail_view as $item) { ?>
+                          <?php //if($select_mail_view as $item) { ?>
                         <address>
                           <p class="font-weight-bold">
                               <img style="width: 50px; height: 50px;" src="<?php echo base_url('public/adminDash/') ?>assets/images/faces-clipart/149071.png" alt="image" />
@@ -29,22 +29,22 @@
                       <div class="col-md-6">
                         <address class="text-primary">
                           <p class="font-weight-bold"> Name </p>
-                          <p class="mb-2">
-                              <?php echo $item['name']; ?>
+                          <p class="mb-2 text-white">
+                              <?php echo $select_mail_view['name']; ?>
                           </p>
                           <p class="font-weight-bold"> E-mail </p>
-                          <p>
-                              <?php echo $item['email']; ?>
+                          <p class="text-white">
+                              <?php echo $select_mail_view['email']; ?>
                           </p>
                         </address>
-                        <?php } ?>
+                        <?php //} ?>
                       </div>
                     </div>
                   </div>
                   <div class="card-body">
-                    <h4 class="card-title">Lead</h4>
+                    <h4 class="card-title text-info">Lead</h4>
                     <p class="lead">
-                        <?php echo $item['message']; ?>
+                        <?php echo $select_mail_view['message']; ?>
                     </p>
                   </div>
                 </div>

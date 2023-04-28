@@ -111,92 +111,141 @@
                         </div>
                     </div>
                 </div>-->
-                <div class="comments-area">
+                
+                <div class="comments-area" style="margin-top: 0px!important;">
                     <h4>Comments</h4>
-                    <?php if ($select_comments_db){ ?>
-                        <?php foreach($select_comments_db as $comment) { ?>
-                        <div class="comment-list">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="<?php echo base_url('userview/public/'); ?>assets/img/comment/comment_1.png" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <p class="comment">
-                                            <?php echo $comment['comment']; ?>
-                                        </p>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex align-items-center">
-                                                <h5>
-                                                    <!-- <a href="#name"> -->
-                                                        <?php echo $comment['name']; ?>
-                                                    <!-- </a> -->
-                                                </h5>
-                                                <p class="date">
-                                                    <?php echo $comment['date']; ?>
-                                                </p>
-                                            </div>
-                                            <!-- <div class="reply-btn">
-                                                <a href="#" class="btn-reply text-uppercase">reply</a>
-                                            </div> -->
-                                        </div>
+                        <?php if ($select_comments_db){ ?>
+                            <?php foreach ($select_comments_db as $comment){ ?>
+                                <div class="comment-list">
+                                    <div class="single-comment justify-content-between d-flex">
+                                        <div class="user justify-content-between d-flex">
+                                            <div class="thumb">
+                                                <?php if ($comment['comment_type'] == 'user'){ ?>
+                                                    <img width="70px" height="70px" style="object-fit: cover" src="<?php echo base_url('uploads/user_profile/').$comment['comment_user_img'] ?>">
+                                                <?php }else{ ?>
+                                                    <img src="<?php echo base_url('uploads/user_profile/comment.png')?>">
+                                                <?php } ?>
 
+                                            </div>
+                                            <div class="desc">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex align-items-center">
+                                                        <h5>
+                                                            <a href="#"><?php echo $comment['comment_name'] ?></a>
+                                                        </h5>
+                                                        <p class="date"><?php echo $comment['comment_date'] ?></p>
+                                                    </div>
+                                                </div>
+
+
+                                                <p class="comment">
+                                                    <?php echo $comment['comment'] ?>
+                                                </p>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    <?php } ?>
-                <?php } ?>
+                            <?php } ?>
 
+                        <?php }else{ ?>
+
+                            <h3>0 comments yet</h3>
+                            <h5>Be the first to comment</h5>
+
+                        <?php } ?>
                 </div>
-                <?php
-
-                /*include = 'Single_Blog';
-
-                if (isset($_POST['post_comment'])){
-
-                    $name    = $_POST['name'];
-                    $comment = $_POST['comment'];
-
-                    $sql = "INSERT INTO single_message (name, comment)
-                VALUES ('$name','$comment')";
-
-                    if ($conn->query($sql) === TRUE) {
-                        echo "";
-                    } else {
-                        echo "Error: " . $sql . "<br>" . $conn->error;
-                    }
-
-                }*/
-
-                ?>
 
                 <div class="comment-form">
+                    <?php if (!isset($_SESSION['user_data'])){ ?>
+                        <h4>Leave a Reply</h4>
 
-                    <form class="form-contact comment_form" action="<?php echo base_url('admin_comment_add_act'); ?>" method="post" enctype='multipart/form-data' id="commentForm">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input class="form-control" name="name" id="name" type="text" placeholder="Name">
-                                </div>
+                        <?php if ($this->session->flashdata('CommentSucc')){ ?>
+                            <div class="alert alert-success alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?php echo $this->session->flashdata('CommentSucc')?>
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                              <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
-                                        placeholder="Write Comment"></textarea>
-                                </div>
+                        <?php }?>
+
+                        <?php if ($this->session->flashdata('CommentError')){ ?>
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?php echo $this->session->flashdata('CommentError')?>
                             </div>
-                            <div class="col-sm-6">
+                        <?php }?>
+
+                        <form class="form-contact comment_form" action="<?php echo base_url('Single_Blog'); ?>" id="commentForm" method="POST">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control" name="name" id="name" type="text" placeholder="Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control" name="email" id="email" type="email" placeholder="Email" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <input class="form-control" name="news_id" type="text" value="<?php echo $this->uri->segment(2)?>" readonly hidden>
                                     </div>
+                                </div>
+
+
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" name="post_comment" class="button button-contactForm btn_1 boxed-btn">Send Message</button>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <button type="submit" class="button button-contactForm btn_1 boxed-btn">Send Message</button>
+                            </div>
+
+                        </form>
+                    <?php }else{ ?>
+                        <h4>Leave a Reply</h4>
+
+                        <?php if ($this->session->flashdata('CommentSucc')){ ?>
+                            <div class="alert alert-success alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?php echo $this->session->flashdata('CommentSucc')?>
+                            </div>
+                        <?php }?>
+
+                        <?php if ($this->session->flashdata('CommentError')){ ?>
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <?php echo $this->session->flashdata('CommentError')?>
+                            </div>
+                        <?php }?>
+
+                        <form class="form-contact comment_form" action="<?php echo base_url('Single_Blog') ?>" id="commentForm" method="POST">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="button button-contactForm btn_1 boxed-btn">Send Message</button>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>
+                                        <input class="form-control" name="news_id" type="text" value="<?php echo $this->uri->segment(2)?>" hidden>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </form>
+                    <?php } ?>
                 </div>
+
             </div>
         </div>
     </div>
